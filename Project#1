@@ -1,0 +1,88 @@
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+struct Record{
+    string name;
+    int q1,q2,q3;
+};
+
+int getavg(int q1, int q2, int q3){
+    int average;
+    return average = (q1 + q2 + q3) / 3;
+}
+
+string getRemarks(int average){
+    if(average < 75){
+        return "FAILED";
+    }else{
+        return "PASSED";
+    }
+}
+void addRec(Record *rec){
+    cout << "Enter name: ";
+    cin >> rec->name;
+    cout << "Enter quiz 1: ";
+    cin >> rec->q1;
+    cout << "Enter quiz 2: ";
+    cin >> rec->q2;
+    cout << "Enter quiz 3: ";
+    cin >> rec->q3;
+}
+
+void displayRec(Record *rec, int size){
+    cout << "\nSTUDENT RECORDS\n";
+    cout << left 
+         << setw(15) << "Name" 
+         << setw(10) << "Quiz 1" 
+         << setw(10) << "Quiz 2" 
+         << setw(10) << "Quiz 3" 
+         << setw(10) << "Average" 
+         << setw(10) << "Remarks" << endl;
+
+    cout << string(65, '-') << endl;
+
+    for(int i = 0; i < size; i++){
+        int average = getavg((rec+i)->q1, (rec+i)->q2, (rec+i)->q3);
+        cout << left 
+             << setw(15) << (rec+i)->name 
+             << setw(10) << (rec+i)->q1 
+             << setw(10) << (rec+i)->q2 
+             << setw(10) << (rec+i)->q3 
+             << setw(10) << average 
+             << setw(10) << getRemarks(average) 
+             << endl;
+    }
+}
+
+int main(){
+   Record *rec = nullptr;
+   int choice, size = 0;
+   
+while(true){
+   cout << "\nMenu\n";
+   cout << "1.Add\n";
+   cout << "2.Display\n";
+   cout << "Enter choice: ";  //sorting, searching, deleting
+   cin >> choice;
+   
+   switch(choice){
+       case 1:{
+           Record *newRec = new Record[size + 1];
+           for(int i = 0; i < size; i++){
+               *(newRec+i) = *(rec+i);
+           }
+           addRec(newRec + size);
+           delete[]rec;
+           rec = newRec;
+           size++;
+           break; 
+       }
+       
+       case 2:{
+           displayRec(rec, size);
+       }
+   }
+  }
+}
